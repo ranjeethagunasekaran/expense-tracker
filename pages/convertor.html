@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Financial Tools</title>
+    <link rel="stylesheet" href="../css/convertor.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-content">
+        <h1>Currency Converter</h1>
+      </div>
+    </header>
+    <nav class="navbar">
+      <div class="nav-content">
+          <h1>Expense Tracker</h1>
+          <ul class="nav-links">
+              <li><a href="home.php">Home</a></li>
+              <li><a href="convertor.html">Currency Converter</a></li>
+              <li><a href="bill_split.html">Bill Splitter</a></li>
+              <li><a href="personaltracker.php">Personal Finance</a></li>
+              <li><a href="savings_planner.html">Savings Planner</a></li>
+              <li><a href="../php/dashboard.php">Profile</a></li>
+              <li><a href="../php/logout.php">Logout</a></li>
+          </ul>
+      </div>
+  </nav>
+    <div class="container">
+      <div class="calculator-container">
+        <!-- Net Worth Calculator -->
+        <div class="calculator">
+          <h2>Net Worth Calculator</h2>
+          <form id="netWorthForm">
+            <div class="form-group">
+              <label for="assets">Total Assets:</label>
+              <input
+                type="number"
+                id="assets"
+                placeholder="Enter your total assets"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="liabilities">Total Liabilities:</label>
+              <input
+                type="number"
+                id="liabilities"
+                placeholder="Enter your total liabilities"
+                required
+              />
+            </div>
+            <button type="submit" class="btn">Calculate Net Worth</button>
+          </form>
+          <div id="netWorthResult" class="result"></div>
+        </div>
+
+        <!-- Currency Converter -->
+        <div class="calculator">
+          <h2>Currency Converter</h2>
+          <form id="currencyConverter">
+            <div class="form-group">
+              <label for="amount">Amount:</label>
+              <input
+                type="number"
+                id="amount"
+                step="0.01"
+                placeholder="Enter amount"
+                required
+              />
+            </div>
+            <div class="form-group">
+              <label for="fromCurrency">From Currency:</label>
+              <select id="fromCurrency" required>
+                <option value="USD">USD - United States Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <!-- Add more currencies as needed -->
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="toCurrency">To Currency:</label>
+              <select id="toCurrency" required>
+                <option value="USD">USD - United States Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <!-- Add more currencies as needed -->
+              </select>
+            </div>
+            <button type="button" id="swapCurrencies" class="btn-swap">↔ Swap</button>
+            <button type="submit" class="btn">Convert</button>
+          </form>
+          <div id="conversionResult" class="result"></div>
+          <div id="conversionRateDisplay" class="result"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // JavaScript for Net Worth Calculator
+      document.getElementById("netWorthForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const assets = parseFloat(document.getElementById("assets").value);
+        const liabilities = parseFloat(document.getElementById("liabilities").value);
+        const netWorth = assets - liabilities;
+
+        // Display result
+        document.getElementById("netWorthResult").textContent = `Your Net Worth is: Rs. ${netWorth.toFixed(2)}`;
+      });
+
+      // JavaScript for Currency Converter
+      const currencyConverter = document.getElementById("currencyConverter");
+      const swapButton = document.getElementById("swapCurrencies");
+
+      // Function to fetch conversion rate from an API
+      async function getConversionRate(fromCurrency, toCurrency) {
+        const apiKey = "e15cc0949f1c43b0de5eebc0"; 
+        const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/pair/${fromCurrency}/${toCurrency}`;
+
+        try {
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+          if (data.result === "success") {
+            return data.conversion_rate;
+          } else {
+            throw new Error("Failed to fetch conversion rate.");
+          }
+        } catch (error) {
+          console.error("Error fetching conversion rate:", error);
+          return null;
+        }
+      }
+
+      // Function to perform currency conversion
+      async function convertCurrency() {
+        const amount = parseFloat(document.getElementById("amount").value);
+        const fromCurrency = document.getElementById("fromCurrency").value;
+        const toCurrency = document.getElementById("toCurrency").value;
+
+        if (isNaN(amount)) { // Fixed: Added missing closing parenthesis
+          alert("Please enter a valid amount.");
+          return;
+        }
+
+        const conversionRate = await getConversionRate(fromCurrency, toCurrency);
+        if (conversionRate) {
+          const convertedAmount = amount * conversionRate;
+          document.getElementById("conversionResult").textContent = `Converted Amount: ${convertedAmount.toFixed(2)} ${toCurrency}`;
+          document.getElementById("conversionRateDisplay").textContent = `Conversion Rate: 1 ${fromCurrency} = ${conversionRate.toFixed(4)} ${toCurrency}`;
+        } else {
+          document.getElementById("conversionResult").textContent = "Failed to fetch conversion rate. Please try again.";
+        }
+      }
+
+      // Event listener for currency conversion
+      currencyConverter.addEventListener("submit", function (event) {
+        event.preventDefault();
+        convertCurrency();
+      });
+
+      // Event listener for swapping currencies
+      swapButton.addEventListener("click", function () {
+        const fromCurrency = document.getElementById("fromCurrency");
+        const toCurrency = document.getElementById("toCurrency");
+        const temp = fromCurrency.value;
+        fromCurrency.value = toCurrency.value;
+        toCurrency.value = temp;
+      });
+    </script>
+  </body>
+</html>

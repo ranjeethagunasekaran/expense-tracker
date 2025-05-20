@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bill Splitter for Friends & Family</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(to right, #4caf50, #3797db);
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 600px;
+        width: 100%;
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+
+      h2 {
+        color: #4caf50;
+        margin-bottom: 20px;
+      }
+
+      /* Form Section Styling */
+      .bill-splitter-form {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+
+      label {
+        margin-bottom: 5px;
+        color: #4caf50;
+        font-size: 1.1rem;
+      }
+
+      input {
+        padding: 10px;
+        border: 2px solid #c0c0c0;
+        border-radius: 5px;
+        transition: border 0.3s;
+      }
+
+      input:focus {
+        border-color: #4caf50;
+        outline: none;
+      }
+
+      /* Tooltip Styling */
+      .form-group:hover .tooltip {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .tooltip {
+        position: absolute;
+        top: -35px;
+        left: 0;
+        background-color: #4caf50;
+        color: white;
+        padding: 5px;
+        border-radius: 5px;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+      }
+
+      button:hover {
+        background-color: #388e3c;
+        transform: scale(1.05);
+      }
+
+      .result-section {
+        margin-top: 30px;
+        display: none; 
+      }
+
+      .result-section.active {
+        display: block;
+      }
+
+      .result-section table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      .result-section th,
+      .result-section td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+      }
+
+      .result-section th {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .result-section td {
+        background-color: #f9f9f9;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      .result-section {
+        animation: fadeIn 0.5s ease-in-out;
+      }
+
+      .friends-list {
+        margin-top: 20px;
+        background-color: #f1f1f1;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .friends-list ul {
+        list-style-type: none;
+      }
+
+      .friends-list ul li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .add-friend-btn {
+        background-color: #4caf50;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .delete-friend-btn {
+        background-color: #ff4d4d;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 5px 10px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .delete-friend-btn:hover {
+        background-color: #cc0000;
+      }
+            
+      .navbar {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: #4CAF50;
+        padding: 15px 0;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        z-index: 1000;
+      }
+
+      .nav-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      .nav-content h1 {
+        font-size: 1rem;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 20px;
+      }
+
+      .nav-links li {
+        display: inline;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+        padding: 10px 15px;
+        transition: background 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="nav-content">
+          <h1>Expense Tracker</h1>
+          <ul class="nav-links">
+              <li><a href="home.php">Home</a></li>
+              <li><a href="convertor.html">Currency Converter</a></li>
+              <li><a href="bill_split.html">Bill Splitter</a></li>
+              <li><a href="personaltracker.php">Personal Finance</a></li>
+              <li><a href="savings_planner.html">Savings Planner</a></li>
+              <li><a href="../php/dashboard.php">Profile</a></li>
+              <li><a href="../php/logout.php">Logout</a></li>
+          </ul>
+      </div>
+  </nav>
+    <div class="container">
+      <h2>Bill Splitter for Friends & Family</h2>
+      <form id="billSplitterForm" class="bill-splitter-form">
+        <div class="form-group">
+          <label for="totalBill">Total Bill Amount (₹):</label>
+          <input
+            type="number"
+            id="totalBill"
+            placeholder="Enter total bill amount"
+            required
+          />
+          <span class="tooltip">Total amount to be split.</span>
+        </div>
+        <div class="form-group">
+          <label for="numPeople">Number of People:</label>
+          <input
+            type="number"
+            id="numPeople"
+            placeholder="Enter number of people"
+            required
+          />
+          <span class="tooltip">How many people are splitting the bill?</span>
+        </div>
+        <div class="form-group">
+          <label for="percentSplit">Percentage Split (if uneven):</label>
+          <input
+            type="text"
+            id="percentSplit"
+            placeholder="Optional: Enter percentages e.g. 50, 30, 20"
+          />
+          <span class="tooltip"
+            >Optional: Enter percentage splits for each person.</span
+          >
+        </div>
+
+        <!-- Add Friends Section -->
+        <h3>Add People</h3>
+        <div id="friendsContainer" class="friends-list">
+          <ul id="friendsList">
+            <!-- Dynamically populated friend list -->
+          </ul>
+          <button type="button" id="addFriendButton" class="add-friend-btn">
+            Add Person
+          </button>
+        </div>
+
+        <button type="submit">Split the Bill</button>
+      </form>
+
+      <!-- Result Section -->
+      <div id="resultSection" class="result-section">
+        <h3>Bill Split Summary</h3>
+        <table id="splitTable">
+          <thead>
+            <tr>
+              <th>Person</th>
+              <th>Amount Owed (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamically populated with bill splits -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('billSplitterForm');
+        const friendsList = document.getElementById('friendsList');
+        const addFriendButton = document.getElementById('addFriendButton');
+        const resultSection = document.getElementById('resultSection');
+        const splitTableBody = document.querySelector('#splitTable tbody');
+
+        let friendCount = 1;
+
+        // Function to add a new friend input field
+        addFriendButton.addEventListener('click', function () {
+          friendCount++;
+          const li = document.createElement('li');
+          li.innerHTML = `
+              <input type="text" id="friend${friendCount}" placeholder="Person ${friendCount-1} Name" required>
+              <button type="button" class="delete-friend-btn">🗑️</button>
+          `;
+          friendsList.appendChild(li);
+
+          // Add event listener to the delete button
+          const deleteButton = li.querySelector('.delete-friend-btn');
+          deleteButton.addEventListener('click', function () {
+            friendsList.removeChild(li);
+            friendCount--; // Decrement friend count
+          });
+        });
+
+        // Function to handle form submission
+        form.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          const totalBill = parseFloat(document.getElementById('totalBill').value);
+          const numPeople = parseInt(document.getElementById('numPeople').value, 10);
+          const percentSplit = document.getElementById('percentSplit').value;
+          const friends = Array.from(friendsList.children).map(
+            (li) => li.querySelector('input').value
+          );
+
+          // Validate number of people
+          if (numPeople <= 0) {
+            alert('Number of people must be greater than 0.');
+            return;
+          }
+
+          // Validate if number of friends matches number of people
+          if (friends.length !== numPeople) {
+            alert('Number of people added does not match the value entered');
+            return;
+          }
+
+          // Validate percentage split (if provided)
+          let splits;
+          if (percentSplit) {
+            const percentages = percentSplit.split(',').map((p) => parseFloat(p.trim()));
+            if (
+              percentages.length !== numPeople ||
+              percentages.reduce((a, b) => a + b, 0) !== 100
+            ) {
+              alert('Percentages must sum to 100 and match the number of people.');
+              return;
+            }
+            splits = percentages.map((p) => ((totalBill * p) / 100).toFixed(2));
+          } else {
+            const equalShare = (totalBill / numPeople).toFixed(2);
+            splits = new Array(numPeople).fill(equalShare);
+          }
+
+          // Clear previous results
+          splitTableBody.innerHTML = '';
+
+          // Populate the table with results
+          friends.forEach((friend, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${friend}</td>
+                <td>₹${splits[index]}</td>
+            `;
+            splitTableBody.appendChild(row);
+          });
+
+          // Show the result section
+          resultSection.classList.add('active');
+        });
+      });
+    </script>
+  </body>
+</html>

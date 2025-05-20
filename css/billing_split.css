@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #4CAF50, #3797db); /* Gradient from green to blue */
+    height: 100vh; /* Ensure full height */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+.bill-splitter-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    color: #4CAF50;
+    margin-bottom: 5px;
+    display: block;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #c0c0c0;
+    border-radius: 5px;
+    transition: border 0.3s;
+}
+
+input:focus {
+    border: 1px solid #3797db;
+    outline: none;
+}
+
+button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #3797db;
+}
+
+small {
+    color: #888;
+    display: block;
+    margin-top: 5px;
+}
+
+.result-section {
+    margin-top: 20px;
+    display: none; /* Initially hidden */
+}
+
+#splitTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#splitTable th, #splitTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#splitTable th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+#splitTable td {
+    background-color: #f9f9f9;
+}

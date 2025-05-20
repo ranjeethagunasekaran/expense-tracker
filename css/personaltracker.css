@@ -1,0 +1,385 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  margin: 100px;
+  background: linear-gradient(to right, #4caf50, #3797db);
+  height: 100vh;
+}
+
+/* Navbar Styling */
+.navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background-color: #4caf50;
+  height: 60px;
+  padding: 0 20px;
+  color: white;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.nav-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.nav-content h1 {
+  font-size: 1rem;
+}
+
+.nav-links,
+.nav-title {
+  opacity: 0;
+  animation: fadeIn 1s forwards;
+  animation-delay: 0.1s;
+}
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+  list-style: none;
+}
+
+.nav-links li {
+  display: inline;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 10px 15px;
+  transition: background 0.3s ease;
+}
+
+.nav-links a:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  color: #cce5ff;
+}
+
+/* Headers */
+h1 {
+  padding-right: 70px;
+}
+
+h2 {
+  text-align: center;
+  color: #4caf50;
+}
+
+h3 {
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  padding: 20px;
+}
+
+/* Current Date Styling */
+p.current-date {
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: white;
+  color: #3797db;
+  padding: 20px 30px;
+  border-radius: 15px;
+  text-align: center;
+  margin: 30px auto;
+  width: fit-content;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* Income + Month-Year Section */
+.income-month-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.income-month-wrapper .income-box,
+.income-month-wrapper .month-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  padding: 20px 30px;
+  font-size: 1.2rem;
+  color: #333;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+  font-weight: 600;
+  min-width: 200px;
+  text-align: center;
+}
+
+/* Expense Section */
+.exp {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  height: 300px;
+  width: 100%;
+}
+
+.exp_breakdown {
+  width: 1000px;
+  margin-right: 100px;
+}
+
+.exp_history {
+  margin: 60px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(5px);
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: left;
+}
+
+th {
+  background-color: #4caf50;
+  color: white;
+}
+
+td {
+  background-color: transparent;
+}
+
+tr {
+  border-bottom: 1px solid rgba(125, 91, 42, 0.3);
+}
+
+tr:last-child {
+  border-bottom: none;
+}
+
+/* Form */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 300px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border: 1px solid #3797db;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  animation-delay: 2s;
+}
+
+label {
+  margin-bottom: 5px;
+  color: #4caf50;
+}
+
+/* Select Dropdown */
+.custom-select {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.custom-select select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  background-color: #fff;
+  transition: border 0.3s;
+  cursor: pointer;
+}
+
+.custom-select select:hover {
+  border: 1px solid #3797db;
+}
+
+/* Inputs */
+input[type="number"],
+input[type="text"] {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #c0c0c0;
+  border-radius: 5px;
+  transition: border 0.3s;
+}
+
+input[type="number"]:focus,
+input[type="text"]:focus {
+  border: 1px solid #3797db;
+  outline: none;
+}
+
+/* Buttons */
+button {
+  padding: 10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 15px;
+}
+
+button:hover {
+  background-color: #3797db;
+}
+
+/* History Table */
+#historyTable {
+  margin-top: 20px;
+  width: 100%;
+  border-collapse: collapse;
+  animation-delay: 3.5s;
+}
+
+#historyTable th,
+#historyTable td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#historyTable th {
+  background-color: #4caf50;
+  color: white;
+}
+
+/* Chart Section */
+.chart-row {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.chart-container {
+  width: 45%;
+  margin: 30px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.chart {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  height: 300px;
+  margin-top: 20px;
+  border-left: 2px solid #333;
+  border-bottom: 2px solid #333;
+  padding-bottom: 10px;
+}
+
+.bar {
+  width: 40px;
+  text-align: center;
+  color: white;
+  margin: 0 10px;
+  position: relative;
+}
+
+.bar-saving {
+  background-color: #4caf50;
+}
+
+.bar-spending {
+  background-color: #f44336;
+}
+
+.bar span {
+  display: block;
+  margin-top: -20px;
+  color: #333;
+  position: absolute;
+  bottom: 0;
+}
+
+.chart-label {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+/* Animation Effects */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.6s forwards;
+}
+
+.fade-in-left {
+  transform: translateX(-100%);
+}
+
+.fade-in-right {
+  transform: translateX(100%);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation Delay for Sections */
+#summaryTable {
+  animation-delay: 0.5s;
+}
+
+h3:nth-of-type(1) {
+  animation-delay: 1s;
+}
+
+table:nth-of-type(2) {
+  animation-delay: 1.5s;
+}
+
+h3:nth-of-type(2) {
+  animation-delay: 2s;
+}
+
+h3:nth-of-type(3) {
+  animation-delay: 3s;
+}
+
+/* Container Spacing */
+.container {
+  margin-bottom: 30px;
+}

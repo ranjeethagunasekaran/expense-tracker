@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right, #4CAF50, #3797db); 
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-label {
+    display: inline-block;
+    padding: 15px 30px;
+    background-color: #3797db;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 50px;
+    margin: 0 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.tab-label:hover {
+    background-color: #287bb6;
+    transform: scale(1.05);
+}
+
+.tab-content {
+    display: none;
+    margin-top: 40px;
+}
+
+#savings-tab:checked ~ .tabs .tab-label[for="savings-tab"],
+#budgeting-tab:checked ~ .tabs .tab-label[for="budgeting-tab"] {
+    background-color: #4CAF50;
+}
+
+#savings-tab:checked ~ #savings-planner,
+#budgeting-tab:checked ~ #family-budgeting {
+    display: block;
+}
+
+.savings-form, .budget-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-size: 1.1rem;
+    color: #795548;
+    margin-bottom: 8px;
+}
+
+input {
+    padding: 10px;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #4CAF50;
+    outline: none;
+}
+
+.submit-btn {
+    grid-column: span 2;
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 0;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.submit-btn:hover {
+    background-color: #388E3C;
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .savings-form, .budget-form {
+        grid-template-columns: 1fr;
+    }
+
+    .submit-btn {
+        padding: 12px 0;
+    }
+}
+
+h2 {
+    color: #3797db; 
+}
